@@ -349,7 +349,7 @@ O Pull Request deve conter:
 - [ ] API NestJS:
   - ✅ Armazena logs de clima em MongoDB  
   - ✅ Exponde endpoints para listar dados  
-  - [ ] Gera/retorna insights de IA (endpoint próprio)  
+  - ✅ Gera/retorna insights de IA (endpoint próprio)  
   - ✅ Exporta dados em CSV/XLSX  
   - ✅ Implementa CRUD de usuários + autenticação  
   - [ ] (Opcional) Integração com API pública paginada  
