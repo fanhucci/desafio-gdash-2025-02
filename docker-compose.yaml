@@ -1,0 +1,73 @@
+services:
+
+  produtor:
+    build: ./produtor
+    container_name: produtor
+    environment:
+      - OPENWEATHER_KEY=${OPENWEATHER_KEY}
+
+  consumidor:
+    build: ./consumidor
+    container_name: consumidor
+    environment:
+      - RABBIT_URL:${RABBIT_URL}
+      - NOME_FILA:${NOME_FILA}
+      - BACKEND_URL:${BACKEND_URL}
+    depends_on:
+      - rabbitmq
+
+  ia:
+    build: ./ia
+    container_name: ia
+    ports:
+      - "5000:5000"
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "8080:80"
+
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "3000:3000"
+    environment:
+      - IA_URL:${IA_URL}
+    depends_on:
+      banco_backend:
+        condition: service_healthy
+
+  banco_backend:
+    image: mongo:7
+    container_name: banco_backend
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:                                    
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"  
+      - "15672:15672" 
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mongo-data:
+  rabbitmq-data:
