@@ -19,9 +19,17 @@ async function bootstrap() {
   })
 
   const config = new DocumentBuilder()
-    .setTitle('Meu Projeto')
-    .setDescription('API do Meu Projeto')
+    .setTitle('Clima')
+    .setDescription('API clima')
     .setVersion('1.0')
+    .addBearerAuth({
+      type:"http",
+      scheme:"bearer",
+      bearerFormat:"JWT",
+      name:"JWT",
+      description:"Digite o token de acesso.",
+      in:"header"
+    },"acess-token")
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);

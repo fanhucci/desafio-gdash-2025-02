@@ -1,11 +1,14 @@
-import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { ClimaService } from './clima.service';
 import { ClimaDto } from './clima.dto';
 import type { Response } from 'express';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 
 
 @Controller("clima")
+@ApiBearerAuth("acess-token")
 export class ClimaController {
   constructor(private readonly climaService: ClimaService) {}
 
@@ -25,6 +28,7 @@ export class ClimaController {
     }
 
     @Get("/arquivo/:tipo")
+    @UseGuards(JwtAuthGuard)
     async exportar(@Param("tipo") tipo: "csv" | "xlsx", @Res() res: Response) {
         const buffer = await this.climaService.geraArquivo(tipo);
 
