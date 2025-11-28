@@ -4,7 +4,7 @@ import { IsString, IsNumber, IsOptional, IsISO8601, IsInt, Min, Max } from 'clas
 export class ClimaDto {
     
   @ApiProperty({
-    description: 'Código do ícone do clima (ex: 01n, 10d)',
+    description: 'Código do ícone do clima',
     example: '01n',
   })
 
