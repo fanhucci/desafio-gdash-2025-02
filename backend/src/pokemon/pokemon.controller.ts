@@ -11,7 +11,7 @@ export class PokemonController{
         return await this.pokemonService.listarPokemons(pagina);
     }
 
-    @Get("/:nome")
+    @Get("detalhes/:nome")
     async detalhePokemon(@Param("nome") nome:string):Promise<PokemonDto>{
         return await this.pokemonService.detalhesPokemon(nome)
     }

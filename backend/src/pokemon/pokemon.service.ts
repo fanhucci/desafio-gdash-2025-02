@@ -11,8 +11,8 @@ export class PokemonService{
 
     async listarPokemons(numero:number):Promise<ListaPokemons>{
         let pagina = 0;
-        if(!isNaN(numero) && numero>0) pagina = (numero-1)*5
-        const urlPokemonPagina = `https://pokeapi.co/api/v2/pokemon/?offset=${pagina}&limit=5`;
+        if(!isNaN(numero) && numero>0) pagina = (numero-1)*9
+        const urlPokemonPagina = `https://pokeapi.co/api/v2/pokemon/?offset=${pagina}&limit=9`;
 
         const req = await fetch(urlPokemonPagina);
 

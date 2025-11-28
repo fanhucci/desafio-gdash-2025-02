@@ -65,6 +65,7 @@ interface CrudUsuariosProps {
 
 export default function CrudUsuarios({ selecionado }: CrudUsuariosProps) {
   const [email, setEmail] = useState<string>("");
+  const [senha, setSenha] = useState<string>("");
   const [cadastroEmail, setCadastroEmail] = useState<string>("");
   const [cadastroSenha, setCadastroSenha] = useState<string>("");
 
@@ -73,6 +74,7 @@ export default function CrudUsuarios({ selecionado }: CrudUsuariosProps) {
       setEmail(selecionado.emailUsuario);
     } else {
       setEmail("");
+      setSenha("");
     }
   }, [selecionado]);
 
@@ -103,7 +105,7 @@ export default function CrudUsuarios({ selecionado }: CrudUsuariosProps) {
           </TabsTrigger>
         </TabsList>
 
-        {/* CADASTRAR */}
+      
         <TabsContent value="cadastro" className="flex flex-col gap-4">
           <FieldLabel className="flex items-center gap-2"><User /> E-mail</FieldLabel>
           <Input
@@ -124,7 +126,7 @@ export default function CrudUsuarios({ selecionado }: CrudUsuariosProps) {
           </Button>
         </TabsContent>
 
-        {/* ALTERAR */}
+       
         <TabsContent value="alterar" className="flex flex-col gap-4">
           <FieldLabel className="flex items-center gap-2"><User /> E-mail</FieldLabel>
           <Input
@@ -134,12 +136,20 @@ export default function CrudUsuarios({ selecionado }: CrudUsuariosProps) {
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-3 rounded-lg text-lg"
           />
+          <FieldLabel className="flex items-center gap-2"><User /> Senha</FieldLabel>
+          <Input
+            readOnly={!selecionado}
+            className="w-full px-4 py-3 rounded-lg text-lg"
+            placeholder="Digite a senha..."
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+          />
           <Button className="w-full mt-2" onClick={atualizarUsuario} disabled={!selecionado}>
             Alterar
           </Button>
         </TabsContent>
 
-        {/* EXCLUIR */}
+
         <TabsContent value="excluir" className="flex flex-col gap-4">
           <FieldLabel className="flex items-center gap-2"><User /> E-mail</FieldLabel>
           <Input
