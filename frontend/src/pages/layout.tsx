@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import { SidebarProvider, SidebarTrigger } from "../components/ui/sidebar";
 import AppSidebar from "../components/appSidebar";
+import { Toaster } from "sonner";
 
 type LayoutProps = {
     children: ReactNode;
@@ -20,7 +21,7 @@ export default function Layout({ children }: LayoutProps) {
   
                     <SidebarTrigger className="mb-4 self-start" />
                     
-
+                    <Toaster/>
                     {children}
                 </main>
             </div>

@@ -29,10 +29,9 @@ type climaProps = {
 export default function Clima({dados}:climaProps){
   const iconUrl = `https://openweathermap.org/img/wn/${dados.iconeClima}@2x.png`;
   const data = new Date(dados.data);
-    const hora = data.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
-    const dia = data.toLocaleDateString("pt-BR");
+  const hora = data.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  const dia = data.toLocaleDateString("pt-BR");
 
-  // cores do card de acordo com a temperatura
   const bgColor = dados.temperatura >= 30 
     ? "bg-yellow-200" 
     : dados.temperatura >= 20 

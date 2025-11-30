@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Item , ItemContent, ItemDescription, ItemSeparator, ItemTitle } from "@/components/ui/item";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import useApi from "@/utils/useApi";
 import { useEffect, useState } from "react"
 
 export interface detalhePokemon {
@@ -10,11 +11,15 @@ export interface detalhePokemon {
     tiposPokemon:string[]
 }
 
+interface listaPokemonType {
+    pokemons:string[]
+}
 
 export default function Explorar(){
-    const urlBack="http://localhost:3000/pokemon";
     const numeroPaginas = Math.trunc(1330/9);
     const maxPagina = numeroPaginas;
+
+    const {fazerRequisicao} = useApi();
 
     const [paginaAtual,setPaginaAtual] = useState<number>(1);
     const [paginasDisponiveis,setPaginasDisponiveis] = useState<number[]>([]);
@@ -28,15 +33,14 @@ export default function Explorar(){
 
     async function pegarListagemPokemons(numero:number):Promise<void>{
         
-        const req = await fetch(`${urlBack}/${numero}`);
-        const res = await req.json();
-        setListaPokemon(res.pokemons);
+        const req = await fazerRequisicao("GET", `/pokemon/${numero}`, false) as listaPokemonType;
+
+        setListaPokemon(req.pokemons);
     }
 
     async function pegarDetalhePokemon(pokemon:string):Promise<void> {
-        const req = await fetch(`${urlBack}/detalhes/${pokemon}`);
-        const res = await req.json();
-        setDetalhePokemon(res);
+        const req = await fazerRequisicao("GET", `/pokemon/detalhes/${pokemon}`, false) as detalhePokemon;
+        setDetalhePokemon(req);
     }
 
     function calcularPaginas(paginaRef:number) {

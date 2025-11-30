@@ -1,53 +1,3 @@
-// interface CrudUsuariosProps {
-//   selecionado: UsuarioType | null;
-//   atualiza: React.Dispatch<React.SetStateAction<boolean>>;
-// }
-
-// async function atualizarUsuario() {
-//   const payload = {
-//     emailUsuario: email,
-//     senhaUsuario: senha,
-//   };
-
-//   const req = await fetch(`${url}/${selecionado?._id}`, {
-//     method: "PUT",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify(payload),
-//   });
-
-//   const res = await req.json();
-//   alert(JSON.stringify(res));
-
-//   atualiza(true); // dispara refresh da lista
-// }
-
-// async function excluirUsuario() {
-//   const req = await fetch(`${url}/${selecionado?._id}`, { method: "DELETE" });
-//   const res = await req.json();
-
-//   alert(JSON.stringify(res));
-//   atualiza(true);
-// }
-
-// async function cadastrarUsuario() {
-//   const payload = {
-//     emailUsuario: cadastroEmail,
-//     senhaUsuario: cadastroSenha,
-//   };
-
-//   const req = await fetch(url, {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify(payload),
-//   });
-
-//   const res = await req.json();
-//   alert(JSON.stringify(res));
-//   atualiza(true);
-// }
-
-
-
 import { User } from "lucide-react";
 import type { UsuarioType } from "./tabelaUsuarios";
 
@@ -59,11 +9,19 @@ import { Button } from "./ui/button";
 import { Field, FieldLabel } from "./ui/field";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
+import useApi from "@/utils/useApi";
+
 interface CrudUsuariosProps {
   selecionado: UsuarioType | null;
 }
 
+type usuarioCrud = {
+  emailUsuario?:string;
+  senhaUsuario?:string;
+}
+
 export default function CrudUsuarios({ selecionado }: CrudUsuariosProps) {
+  const {fazerRequisicao} = useApi();
   const [email, setEmail] = useState<string>("");
   const [senha, setSenha] = useState<string>("");
   const [cadastroEmail, setCadastroEmail] = useState<string>("");
@@ -79,15 +37,30 @@ export default function CrudUsuarios({ selecionado }: CrudUsuariosProps) {
   }, [selecionado]);
 
   async function atualizarUsuario() {
-    alert(`E-mail alterado para: ${email}`);
+
+    const payload:usuarioCrud = {}
+    if(email.trim()!="") payload.emailUsuario = email;
+    if(senha.trim()!="") payload.senhaUsuario = senha;
+
+    if(Object.keys(payload).length<1) return alert("Pelo menos 1 campo tem de estar preenchido.")
+    
+    await fazerRequisicao("PATCH", `/usuario/${selecionado?._id}`, true, payload);
   }
 
   async function excluirUsuario() {
+    console.log(selecionado?._id)
+    await fazerRequisicao("DELETE", `/usuario/${selecionado?._id}`, true);
     alert("Usuário excluído");
   }
 
   async function cadastrarUsuario() {
-    alert("Usuário cadastrado");
+    const payload:usuarioCrud = {
+      emailUsuario: cadastroEmail,
+      senhaUsuario: cadastroSenha
+    }
+
+    await fazerRequisicao("POST", "/usuario", true, payload);
+
   }
 
   return (

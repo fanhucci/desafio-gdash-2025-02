@@ -3,19 +3,24 @@ import { useEffect, useState } from "react";
 import CrudUsuarios from "../components/crudUsuarios";
 import type { UsuarioType } from "../components/tabelaUsuarios";
 import TabelaUsuarios from "../components/tabelaUsuarios";
+import { useAuth } from "./../../contexts/AuthContext";
+import useApi from "@/utils/useApi";
 
 export default function Usuarios() {
+  const {usuario} = useAuth();
+   const {fazerRequisicao} = useApi();
   const [usuarios, setUsuarios] = useState<UsuarioType[]>([]);
   const [usuarioSelecionado, setUsuarioSelecionado] = useState<UsuarioType | null>(null);
   const [atualizaView, setAtualizaView] = useState<boolean>(false);
 
   async function pegarUsuarios() {
-    const urlBackend = "http://localhost:3000/usuario";
-    const req = await fetch(urlBackend);
-    if(!req.ok) return
+
+   
+    if(!usuario)return
     
-    const usuarios = await req.json();
-    setUsuarios(usuarios);
+    const req = await fazerRequisicao("GET", "/usuario", true) as [];
+   
+    setUsuarios(req);
   }
 
   useEffect(() => {
@@ -45,10 +50,7 @@ export default function Usuarios() {
           Gerenciar Usuário
         </div>
         <div className="flex-1 p-4">
-          <CrudUsuarios
-            selecionado={usuarioSelecionado}
-
-          />
+          <CrudUsuarios selecionado={usuarioSelecionado}/>
         </div>
       </div>
     </div>

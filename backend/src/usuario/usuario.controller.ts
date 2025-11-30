@@ -32,7 +32,7 @@ export class UsuarioController{
 
     @Delete("/:id")
     @UseGuards(JwtAuthGuard)
-    async deletarUsuario(@Param("id") id:string):Promise<string>{
+    async deletarUsuario(@Param("id") id:string):Promise<{}>{
         return await this.usuarioService.deletarUsuario(id);
     }
 

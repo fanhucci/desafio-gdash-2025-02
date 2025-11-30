@@ -34,13 +34,15 @@ export class UsuarioService{
         return await velhoUsuario.save()
     }
 
-    async deletarUsuario(id:string):Promise<string>{
+    async deletarUsuario(id:string):Promise<{}>{
 
         const resultado = await this.usuarioModel.findByIdAndDelete(id);
 
         if(!resultado) throw new NotFoundException(`Usuário com id ${id} não encontrado.`);
 
-        return "Usuário deletado com sucesso.";
+        const mensagem = { mensagem:"Usuário deletado com sucesso."};
+
+        return mensagem ;
     }
      
 

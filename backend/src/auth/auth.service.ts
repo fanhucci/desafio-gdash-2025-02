@@ -5,12 +5,13 @@ import { CriarUsuarioDto } from "src/usuario/dto/criarUsuario.dto";
 import { Usuario } from "src/usuario/usuario.schema";
 import * as bcrypt from "bcrypt"
 import { JwtService } from '@nestjs/jwt';
+
 @Injectable()
 export class AuthService{
-    constructor(@InjectModel(Usuario.name) private authModel:Model<Usuario>,
-    private jwtService: JwtService){}
+    constructor(@InjectModel(Usuario.name) private authModel:Model<Usuario>, private jwtService: JwtService){}
 
     async logar(dto:CriarUsuarioDto){
+        
         const usuario = await this.authModel.findOne({ emailUsuario: dto.emailUsuario}).select("+senhaUsuario");
 
         if(!usuario) throw new NotFoundException("Credenciais incorretas.");
@@ -21,7 +22,7 @@ export class AuthService{
 
         const payload = {sub: usuario._id, email:usuario.emailUsuario};
 
-        return {access_token: this.jwtService.sign(payload)};
+        return {email: usuario.emailUsuario, access_token: this.jwtService.sign(payload)};
 
     }
 }

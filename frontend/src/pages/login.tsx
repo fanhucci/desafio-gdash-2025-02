@@ -3,8 +3,14 @@ import { useState } from "react";
 import { Button } from "../components/ui/button";
 import { Field, FieldLabel } from "../components/ui/field";
 import { Input } from "../components/ui/input";
+import { useAuth, type Usuario } from "./../../contexts/AuthContext";
+import useApi from "@/utils/useApi";
 
 export default function Login() {
+  const { entrar  } = useAuth();
+
+  const {fazerRequisicao} = useApi();
+  
   const [email, setEmail] = useState<string>("");
   const [senha, setSenha] = useState<string>("");
 
@@ -15,8 +21,14 @@ export default function Login() {
       return;
     }
 
-    console.log(email, senha);
-    // Aqui você faria a chamada ao backend
+    const payload = {
+      emailUsuario: email,
+      senhaUsuario: senha
+    }
+
+    const req = await fazerRequisicao("POST", "/login/autenticar", false, payload ) as Usuario ;
+    
+    entrar(req);
   }
 
   return (
@@ -56,12 +68,7 @@ export default function Login() {
           Entrar
         </Button>
 
-        <div className="text-center text-sm text-gray-500">
-          Não tem uma conta?{" "}
-          <a href="/register" className="text-blue-500 hover:underline">
-            Cadastre-se
-          </a>
-        </div>
+       
       </div>
     </div>
   );

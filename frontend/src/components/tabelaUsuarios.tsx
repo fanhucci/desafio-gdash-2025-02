@@ -15,7 +15,7 @@ type UsuarioTypeProp = {
 };
 
 export default function TabelaUsuarios({ dados, setter, selecionado }: UsuarioTypeProp) {
-  const cabecaTabela = ["ID", "E-mail", "Senha"];
+  const cabecaTabela = ["ID", "E-mail"];
 
   return (
     <Table className="text-center min-w-full">
