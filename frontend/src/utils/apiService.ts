@@ -36,6 +36,18 @@ export default class ApiService{
         };
 
         const requisicao = await fetch(this.url+endpoint,opcoes);
+
+
+        const tipoConteudo = requisicao.headers.get("content-type") || "";
+        
+
+        if(!tipoConteudo.includes("application/json")){
+
+            if (!requisicao.ok) throw new Error(`Erro HTTP ${requisicao.status}`);
+
+            return requisicao;
+        }
+
         const resposta = await requisicao.json();
 
         if(!requisicao.ok) throw new Error(`${resposta.statusCode} - ${resposta.message}`);

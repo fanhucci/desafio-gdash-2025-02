@@ -2,19 +2,13 @@ package main
 
 import (
 	"bytes"
-
+	"os"
 	"fmt"
 	"log"
 	"net/http"
 	"time"
 
 	"github.com/rabbitmq/amqp091-go"
-)
-
-const (
-	rabbitURL = "amqp://guest:guest@rabbitmq:5672/"
-	queueName = "clima"
-	apiURL    = "http://backend:3000/clima"
 )
 
 func main() {
@@ -28,8 +22,10 @@ func main() {
 }
 
 func startConsumer() error {
-
+	rabbitURL := os.Getenv("RABBIT_URL")
+	queueName := os.Getenv("NOME_FILA")
 	conn, err := amqp091.Dial(rabbitURL)
+
 	if err != nil {
 		log.Println("Erro ao conectar no RabbitMQ:", err)
 		return err
@@ -80,6 +76,8 @@ func startConsumer() error {
 }
 
 func enviarParaAPI(data []byte) {
+	apiURL := os.Getenv("BACKEND_URL")+"/clima"
+
 	client := &http.Client{Timeout: 5 * time.Second}
 
 	req, err := http.NewRequest("POST", apiURL, bytes.NewBuffer(data))

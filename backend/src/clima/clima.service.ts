@@ -15,7 +15,7 @@ export class ClimaService {
     }
 
     async pegaPrevisao(){
-        const urlIa = "http:/ia:5000/prever"
+        const urlIa = `${process.env.IA_URL}/prever`
         if(!urlIa)return
 
         const clima = await this.climaModel.findOne().sort({_id:-1}).lean().exec();

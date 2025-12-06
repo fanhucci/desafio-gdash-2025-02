@@ -10,9 +10,9 @@ services:
     build: ./consumidor
     container_name: consumidor
     environment:
-      - RABBIT_URL:${RABBIT_URL}
-      - NOME_FILA:${NOME_FILA}
-      - BACKEND_URL:${BACKEND_URL}
+      - RABBIT_URL=${RABBIT_URL}
+      - NOME_FILA=${NOME_FILA}
+      - BACKEND_URL=${BACKEND_URL}
     depends_on:
       - rabbitmq
 
@@ -33,7 +33,9 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - IA_URL:${IA_URL}
+      - IA_URL=${IA_URL}
+      - EMAIL_USUARIO_PADRAO=${EMAIL_USUARIO_PADRAO}
+      - SENHA_USUARIO_PADRAO=${SENHA_USUARIO_PADRAO}
     depends_on:
       banco_backend:
         condition: service_healthy

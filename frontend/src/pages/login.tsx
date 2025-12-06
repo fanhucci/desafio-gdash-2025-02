@@ -5,6 +5,7 @@ import { Field, FieldLabel } from "../components/ui/field";
 import { Input } from "../components/ui/input";
 import { useAuth, type Usuario } from "./../../contexts/AuthContext";
 import useApi from "@/utils/useApi";
+import { LogIn } from "lucide-react";
 
 export default function Login() {
   const { entrar  } = useAuth();
@@ -65,6 +66,7 @@ export default function Login() {
           className="w-full py-3 rounded-lg text-lg font-semibold"
           variant="secondary"
         >
+          <LogIn />
           Entrar
         </Button>
 

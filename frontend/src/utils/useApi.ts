@@ -1,14 +1,20 @@
 import { toast } from "sonner";
 import { useAuth } from "./../../contexts/AuthContext";
 import ApiService from "./apiService";
+import { useEffect } from "react";
+
+const apiBackend = new ApiService("http://localhost:3000");
 
 export default function useApi(){
 
     const {usuario} = useAuth();
 
-    const apiBackend = new ApiService("http://localhost:3000");
+    
 
-    if(usuario) apiBackend.setToken(usuario.access_token);
+    useEffect(()=>{
+        if(usuario) apiBackend.setToken(usuario.access_token);
+        else apiBackend.setToken(null);
+    },[usuario])
 
     return {
 
