@@ -81,3 +81,16 @@ Aplicação completa para registro e análise de dados climáticos, utilizando m
 - O backend faz o CRUD e integra com serviços externos (PokeAPI e Flask ML).
 
 - O frontend consome diretamente os endpoints do backend.
+
+## URLS PRINCIPAIS
+
+# Documentação Backend
+ - http://localhost:3000/docs#/
+# Api frontend
+ - http://localhost:8080/
+
+## Usuario padrao
+```
+  Email: admin@admin.com
+  senha: 123456
+```
